@@ -27,3 +27,9 @@ Given /^the following appointments exist:$/ do |appointments_table|
         Appointment.create appointments
     end
 end
+
+Given /^the following histories exist:$/ do |histories_table|
+    histories_table.hashes.each do |histories|
+        History.create histories
+    end
+end

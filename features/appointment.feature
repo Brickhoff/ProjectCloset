@@ -6,10 +6,10 @@ Feature: appointment system check
 
 Background: users in database
  Given the following users exist:
-  | first_name    |  last_name  |     uin   |   phone       |     email      |   available    |  password | password_confirmation | 
-  | Cathy         |     Zhang   | 123456789 |   9796863432  | cathy@tamu.edu |    false       | 123456    |   123456              |         
-  | Henry         |     Lin     | 123456790 |   9796823432  | henry@tamu.edu |    true        | 123456    |   123456              |
-  | Henry2        |     Lin     | 123456791 |   9796823432  | henry2@tamu.edu|    true        | 123456    |   123456              |
+  | first_name    |  last_name  |     uin   |   phone       |     email      |   available    | email_confirmed |  password | password_confirmation | 
+  | Cathy         |     Zhang   | 123456789 |   9796863432  | cathy@tamu.edu |    false       |     true        |   123456  |   123456              |         
+  | Henry         |     Lin     | 123456790 |   9796823432  | henry@tamu.edu |    true        |     true        |   123456  |   123456              |
+  | Henry2        |     Lin     | 123456791 |   9796823432  | henry2@tamu.edu|    true        |     true        |   123456  |   123456              |
   Given the following admins exist:
   | name      |    email       | password | password_confirmation | 
   | Cathy     | cathy@tamu.edu | 123456   |   123456              |         
@@ -58,4 +58,4 @@ Scenario: admins manage appointments with time
   
 Scenario: admins manage appointments with time
   When I am on the appointments page
-  When I should see "You must be logged in to perform that action"
+  And I should see "You must be logged in to perform that action"

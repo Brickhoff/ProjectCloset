@@ -6,18 +6,49 @@ Feature: new user sign up now form login page
 
 Background: suits have been added to database
   Given the following users exist:
-  | first_name    |  last_name  |     uin   |   phone       |     email      |   available    |  password | password_confirmation | 
-  | Cathy         |     Zhang   | 123456789 |   9796863432  | cathy@tamu.edu |    false       | 123456    |   123456              |         
-  | Henry         |     Lin     | 123456790 |   9796823432  | henry@tamu.edu |    true        | 123456    |   123456              |
+  | first_name    |  last_name  |     uin   |   phone       |     email      |   available    | email_confirmed |  password | password_confirmation | 
+  | Cathy         |     Zhang   | 123456789 |   9796863432  | cathy@tamu.edu |    flase       |    true         |   123456  |   123456              |         
+  | Henry         |     Lin     | 123456790 |   9796823432  | henry@tamu.edu |    true        |    false        |   123456  |   123456              |
 
-Scenario: user log in
+Scenario: user forget password(invalid emial)
+  When I am on the login page
+  And I follow "forgot password"
+  Then I should see "Forgot password"
+  And I fill in "Email" with "bk@tamu.edu"
+  And I press "Submit"
+  Then I should see "Email address not foound"
+  
+Scenario: user forget password(valid email)
+  When I am on the login page
+  And I follow "forgot password"
+  Then I should see "Forgot password"
+  And I fill in "Email" with "cathy@tamu.edu"
+  And I press "Submit"
+  Then I should see "Email sent with password reset instructions"
+
+Scenario: user change password
+  When I am on the password_resets page
+  And I fill in "user_password" with "123qwe"
+  And I fill in "user_password_confirmation" with "123qwe"
+  And I press "Update password"
+  Then I should see "Password has been reset."
+  
+Scenario: user log in (with email confirmed)
   When I am on the login page
   And I fill in "Email" with "cathy@tamu.edu"
   And I fill in "Password" with "123456"
   And I press "Log in"
+  #And I should see "Please activate your account."
   And I should see "Listing Appointments"
   And I follow "Log out"
   Then I should see "Log in"
+
+Scenario: user log in (without email confirmed)
+  When I am on the login page
+  And I fill in "Email" with "henry@tamu.edu"
+  And I fill in "Password" with "123456"
+  And I press "Log in"
+  And I should see "Please activate your account."
   
 Scenario: user log in (sad path)
   When I am on the login page
@@ -34,12 +65,12 @@ Scenario: new user sign up
   And I fill in "Last Name" with "Wu"
   And I fill in "UIN" with "123456791"
   And I fill in "Phone" with "1234567912"
-  And I fill in "Email" with "brickhoff@tamu.edu"
+  And I fill in "Email" with "brickhoffwu@tamu.edu"
   And I fill in "Password" with "123456789"
   And I fill in "Password Confirmation" with "123456789"
   And I press "Create my account"
   Then I should see "Welcome to Career Closet Xuezhang"
-  And I follow "Setting"
+  And I follow "Settings"
   And I should see "Update your profile"
   And I fill in "Phone" with "1234567890"
   And I fill in "Password" with "123456789"
