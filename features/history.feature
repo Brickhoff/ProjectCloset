@@ -39,7 +39,7 @@ Scenario: admin login, create history, edit history, delete history
   And I should see "Histories"
   And I follow "New History"
   Then I should see "New History"
-  #And I select "sexy" from "Suit App. ID:"
+  And I select "sexy" from "Suit App. ID:"
   And I select "345678901" from "UIN of costumer:"
   And I select "2018" from "history_checkOutTime_1i"
   And I select "April" from "history_checkOutTime_2i"
@@ -69,3 +69,5 @@ Scenario: admin login, create history, edit history, delete history
   And I select "03" from "history_returnTime_5i"
   And I press "Update History"
   Then I should see "History was successfully updated."
+  And I follow "Delete"
+  Then I am on the histories page

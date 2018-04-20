@@ -27,7 +27,16 @@ Scenario: user forget password(valid email)
   Then I should see "Email sent with password reset instructions"
 
 Scenario: user change password
-  When I am on the password_resets page
+  When I am on the login page
+  And I follow "forgot password"
+  Then I should see "Forgot password"
+  And I fill in "Email" with "cathy@tamu.edu"
+  And I press "Submit"
+  Then "cathy@tamu.edu" should receive an email
+  When I open the email
+  Then I should see "Password reset" in the email body
+  When I follow "Reset password" in the email
+  Then I should see "Reset password"
   And I fill in "user_password" with "123qwe"
   And I fill in "user_password_confirmation" with "123qwe"
   And I press "Update password"
@@ -57,6 +66,7 @@ Scenario: user log in (sad path)
   And I press "Log in"
   And I should see "Invalid combination of email and password."
 
+  
 Scenario: new user sign up
   When I am on the login page
   And I follow "Sign up now!"
@@ -65,11 +75,20 @@ Scenario: new user sign up
   And I fill in "Last Name" with "Wu"
   And I fill in "UIN" with "123456791"
   And I fill in "Phone" with "1234567912"
-  And I fill in "Email" with "brickhoffwu@tamu.edu"
+  And I fill in "Email" with "brickhoffs@tamu.edu"
   And I fill in "Password" with "123456789"
   And I fill in "Password Confirmation" with "123456789"
   And I press "Create my account"
-  Then I should see "Welcome to Career Closet Xuezhang"
+  Then "brickhoffs@tamu.edu" should receive an email
+  When I open the email with subject "Please confirm your registration."
+  When I click the first link in the email
+  Then I should see "Welcome to TAMU Closet! Your account has now been confirmed."
+  And I follow "Log in"
+  Then I am on the login page
+  And I fill in "Email" with "brickhofwuSf@tamu.edu"
+  And I fill in "Password" with "123456789"
+  And I press "Log in"
+  Then I should see "Listing Appointments"
   And I follow "Settings"
   And I should see "Update your profile"
   And I fill in "Phone" with "1234567890"
